@@ -19,7 +19,7 @@ function Cell(number) {
 
 function Group (size) {
     this.size = size;
-    this.currNum = 1;
+    this.currNum = 0;
     this.inverted = false;
     this.divergent = false;
 }
@@ -29,16 +29,16 @@ Group.prototype.firstNumber = function () {
     } else if (this.divergent && !this.inverted) {
         return Math.floor(this.size / 2);
     } else {
-        return 1;
+        return 0;
     }
 }
 Group.prototype.lastNumber = function () {
     if (!this.inverted) {
         return this.size;
     } else if (this.divergent) {
-        return Math.floor(this.size / 2) + 1;
+        return Math.floor(this.size / 2);
     } else {
-        return 1;
+        return 0;
     }
 }
 Group.prototype.nextNumber = function (currNum=this.currNum) {
@@ -720,11 +720,12 @@ vueApp = new Vue({
             var range = [];
             var cell = null;
             for (g = 0; g < this.groupCount; g ++) {
-                for (i = 1; i <= this.groups[g].size; i++) {
+                for (i = 0; i < this.groups[g].size; i++) {
                     cell = new Cell(i);
                     cell.group = g;
                     if (!isNaN(parseInt(this.nOffset))) {
-                        cell.symbol = (cell.number + parseInt(this.nOffset)) + "";
+                        let nummmm = (cell.number + parseInt(this.nOffset));
+                        cell.symbol = nummmm < 10 ? ("0" + nummmm) : (nummmm + "");
                     }
                     if (this.colorGroups) {
                         cell.colorStyle = this.groupColorStyles[g];
